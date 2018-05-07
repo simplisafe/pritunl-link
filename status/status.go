@@ -26,11 +26,7 @@ func Get() (status Status, connected int, err error) {
 			continue
 		}
 
-		if strings.HasSuffix(lines[0], "]") {
-			isIkeState = true
-		} else {
-			isIkeState = false
-		}
+		isIkeState = strings.HasSuffix(lines[0], "]")
 
 		if isIkeState {
 			ikeState = strings.SplitN(
@@ -52,6 +48,8 @@ func Get() (status Status, connected int, err error) {
 			case "ESTABLISHED":
 				if connState == "INSTALLED" {
 					connState = "connected"
+				} else {
+					connState = "disconnected"
 				}
 				break
 			case "CONNECTING":
